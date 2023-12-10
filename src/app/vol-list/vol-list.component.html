@@ -1,0 +1,11 @@
+<!-- vol-list.component.html -->
+
+<div class="reservation-list">
+  <h2>Liste des Réservations</h2>
+
+  <ul>
+    <li *ngFor="let reservation of reservations">
+      {{ reservation.clientName }} a réservé un vol de {{ reservation.source }} à {{ reservation.destination }}
+    </li>
+  </ul>
+</div>

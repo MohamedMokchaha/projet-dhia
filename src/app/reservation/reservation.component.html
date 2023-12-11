@@ -1,26 +1,20 @@
 <!-- reservation.component.html -->
-
-<div class="reservation-form">
-  <h2>Réservation de Vol</h2>
-
-  <form (ngSubmit)="onSubmit()">
-    <label for="name">Nom:</label>
-    <input type="text" id="name" name="name" [(ngModel)]="clientName" required>
-
-    <label for="passport">Numéro de Passeport:</label>
-    <input type="text" id="passport" name="passport" [(ngModel)]="passportNumber" required>
-
-    <label for="source">Aéroport de Départ:</label>
-    <select id="source" name="source" [(ngModel)]="selectedSource" required>
-      <option *ngFor="let airport of airports" [value]="airport">{{ airport }}</option>
-    </select>
-
-    <label for="destination">Aéroport d'Arrivée:</label>
-    <select id="destination" name="destination" [(ngModel)]="selectedDestination" required>
-      <option *ngFor="let airport of airports" [value]="airport">{{ airport }}</option>
-    </select>
-
-    <button type="submit">Réserver</button>
-  </form>
+<div>
+  <label for="clientName">Nom:</label>
+  <input type="text" id="clientName" [(ngModel)]="clientName" required>
 </div>
-
+<div>
+  <label for="passportNumber">Numéro de Passeport:</label>
+  <input type="text" id="passportNumber" [(ngModel)]="passportNumber" required>
+</div>
+<div>
+  <label for="email">E-mail:</label>
+  <input type="email" id="email" [(ngModel)]="email" required>
+</div>
+<div>
+  <label for="vols">Sélectionner un vol:</label>
+  <select id="vols" [(ngModel)]="selectedVol" required>
+    <option *ngFor="let vol of vols" [value]="vol">{{ vol.reference }} - {{ vol.depart }} à {{ vol.destination }}</option>
+  </select>
+</div>
+<button (click)="reserve()">Réserver</button>

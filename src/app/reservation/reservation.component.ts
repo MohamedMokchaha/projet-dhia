@@ -1,39 +1,51 @@
 // reservation.component.ts
-
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.component.html',
   styleUrls: ['./reservation.component.css']
 })
-export class ReservationComponent {
+export class ReservationComponent implements OnInit {
+  vols: any[] = [];
+  selectedVol: any = null;
   clientName: string = '';
   passportNumber: string = '';
-  airports: string[] = ['Aéroport 1', 'Aéroport 2', 'Aéroport 3']; // Remplacez par vos aéroports réels
-  selectedSource: string = '';
-  selectedDestination: string = '';
-  reservations: any[] = [];
+  email: string = '';
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.loadVols();
+  }
 
-  onSubmit(): void {
-    const reservation = {
-      clientName: this.clientName,
-      passportNumber: this.passportNumber,
-      source: this.selectedSource,
-      destination: this.selectedDestination
-    };
+  loadVols(): void {
+    const storedVols = localStorage.getItem('vols');
 
-    // Stockez la réservation dans le local storage
-    this.reservations.push(reservation);
-    localStorage.setItem('reservations', JSON.stringify(this.reservations));
+    if (storedVols) {
+      this.vols = JSON.parse(storedVols);
+    }
+  }
 
-    // Réinitialisez les champs du formulaire
-    this.clientName = '';
-    this.passportNumber = '';
-    this.selectedSource = '';
-    this.selectedDestination = '';
+  reserve(): void {
+    if (this.selectedVol && this.clientName && this.passportNumber && this.email) {
+      const reservation = {
+        clientName: this.clientName,
+        passportNumber: this.passportNumber,
+        email: this.email,
+        selectedVol: this.selectedVol.reference // Utilisez une référence au lieu de l'objet complet pour éviter toute incohérence
+      };
+
+      // Stockez la réservation dans le local storage
+      const reservations = localStorage.getItem('reservations') ? JSON.parse(localStorage.getItem('reservations')!) : [];
+      reservations.push(reservation);
+      localStorage.setItem('reservations', JSON.stringify(reservations));
+
+      // Réinitialisez les champs du formulaire
+      this.clientName = '';
+      this.passportNumber = '';
+      this.email = '';
+      this.selectedVol = null;
+    } else {
+      alert('Veuillez remplir tous les champs et sélectionner un vol.');
+    }
   }
 }

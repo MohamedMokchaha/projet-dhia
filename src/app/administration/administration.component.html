@@ -1,0 +1,55 @@
+<!-- administration.component.html -->
+
+<div class="administration">
+  <h2>Gestion des Billets</h2>
+
+  <!-- Ajout d'un nouveau billet -->
+  <div>
+    <h3>Ajouter un Nouveau Billet</h3>
+    <form (submit)="addBillet()">
+      <label for="code">Code:</label>
+      <input type="text" id="code" name="code" [(ngModel)]="newBillet.code" required>
+
+      <label for="prix">Prix:</label>
+      <input type="number" id="prix" name="prix" [(ngModel)]="newBillet.prix" required>
+
+      <label for="classe">Classe:</label>
+      <select id="classe" name="classe" [(ngModel)]="newBillet.classe" required>
+        <option value="Première classe">Première classe</option>
+        <option value="Deuxième classe">Deuxième classe</option>
+        <option value="Classe VP">Classe VP</option>
+      </select>
+
+      <button type="submit">Ajouter Billet</button>
+    </form>
+  </div>
+
+  <!-- Liste des billets -->
+  <div>
+    <h3>Liste des Billets</h3>
+
+    <!-- Barre de recherche -->
+    <label for="search">Recherche:</label>
+    <input type="text" id="search" name="search" [(ngModel)]="searchQuery" (input)="searchBillets()">
+
+    <ul>
+      <li *ngFor="let billet of billets">
+        {{ billet.code }} - {{ billet.prix }} - {{ billet.classe }}
+        <button (click)="updateBillet(billet)">Modifier</button>
+        <button (click)="deleteBillet(billet.code)">Supprimer</button>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Liste des Réservations -->
+<div>
+  <h3>Liste des Réservations</h3>
+
+  <ul>
+    <li *ngFor="let reservation of reservations">
+      {{ reservation.clientName }} - {{ reservation.passportNumber }} - {{ reservation.selectedVol.reference }} - {{ reservation.selectedVol.depart }} à {{ reservation.selectedVol.destination }}
+      <button (click)="deleteReservation(reservation)">Supprimer Réservation</button>
+    </li>
+  </ul>
+</div>

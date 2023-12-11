@@ -1,11 +1,47 @@
 <!-- vol-list.component.html -->
 
-<div class="reservation-list">
-  <h2>Liste des Réservations</h2>
+<div class="vol-list">
+  <h2>Liste des Vols</h2>
 
-  <ul>
-    <li *ngFor="let reservation of reservations">
-      {{ reservation.clientName }} a réservé un vol de {{ reservation.source }} à {{ reservation.destination }}
-    </li>
-  </ul>
+  <!-- Ajout d'un nouveau vol -->
+  <div>
+    <h3>Ajouter un Nouveau Vol</h3>
+    <form (submit)="addVol()">
+      <label for="reference">Référence:</label>
+      <input type="text" id="reference" name="reference" [(ngModel)]="newVol.reference" required>
+
+      <label for="dateHeureVol">Date et Heure de Vol:</label>
+      <input type="datetime-local" id="dateHeureVol" name="dateHeureVol" [(ngModel)]="newVol.dateHeureVol" required>
+
+      <label for="referenceAvion">Référence de l'Avion:</label>
+      <select id="referenceAvion" name="referenceAvion" [(ngModel)]="newVol.referenceAvion" required>
+        <option *ngFor="let avion of avions" [value]="avion">{{ avion }}</option>
+      </select>
+
+      <label for="depart">Départ:</label>
+      <input type="text" id="depart" name="depart" [(ngModel)]="newVol.depart" required>
+
+      <label for="destination">Destination:</label>
+      <input type="text" id="destination" name="destination" [(ngModel)]="newVol.destination" required>
+
+      <button type="submit">Ajouter Vol</button>
+    </form>
+  </div>
+
+  <!-- Liste des vols -->
+  <div>
+    <h3>Liste des Vols</h3>
+
+    <!-- Barre de recherche -->
+    <label for="search">Recherche:</label>
+    <input type="text" id="search" name="search" [(ngModel)]="searchQuery" (input)="searchVols()">
+
+    <ul>
+      <li *ngFor="let vol of vols">
+        {{ vol.reference }} - {{ vol.dateHeureVol }} - {{ vol.referenceAvion }} - {{ vol.depart }} - {{ vol.destination }}
+        <button (click)="updateVol(vol)">Modifier</button>
+        <button (click)="deleteVol(vol.reference)">Supprimer</button>
+      </li>
+    </ul>
+  </div>
 </div>
